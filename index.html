@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WineCar – Fahrbare Eleganz</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F9F6F1;
+    color: #1a1a1a;
+    font-weight: 300;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(249,246,241,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .nav-logo span { font-style: italic; color: #7a3b2e; }
+  .nav-links { display: flex; gap: 2rem; font-size: 0.85rem; letter-spacing: 0.06em; color: #555; }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: #7a3b2e; }
+  .nav-cta {
+    background: #7a3b2e;
+    color: #fff;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #5c2c20; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 6rem 6rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: #7a3b2e;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 1.8rem;
+    color: #1a1a1a;
+  }
+  .hero-title em { font-style: italic; color: #7a3b2e; }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: #7a3b2e;
+    color: #fff;
+    padding: 0.9rem 2rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: #5c2c20; }
+  .btn-ghost {
+    color: #7a3b2e;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 0.4rem;
+    cursor: pointer;
+    border: none; background: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .btn-ghost:hover { opacity: 0.7; }
+
+  .hero-right {
+    background: #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-visual {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 1rem;
+  }
+  .hero-badge {
+    background: rgba(255,255,255,0.08);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 0.5px solid rgba(0,0,0,0.1);
+    border-bottom: 0.5px solid rgba(0,0,0,0.1);
+  }
+  .stat-item {
+    padding: 2.5rem 3rem;
+    border-right: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: #7a3b2e;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label { font-size: 0.82rem; color: #888; letter-spacing: 0.04em; }
+
+  /* FEATURES */
+  .section { padding: 6rem; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    max-width: 540px;
+    margin-bottom: 3rem;
+  }
+  .section-title em { font-style: italic; color: #7a3b2e; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .feature-card {
+    padding: 2rem;
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    background: #fff;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { border-color: #7a3b2e; transform: translateY(-2px); }
+  .feature-icon {
+    width: 40px; height: 40px;
+    margin-bottom: 1.2rem;
+    color: #7a3b2e;
+  }
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+  }
+  .feature-text { font-size: 0.88rem; color: #777; line-height: 1.65; }
+
+  /* AUDIENCE */
+  .audience { background: #1a1a1a; padding: 6rem; }
+  .audience .section-label { color: #c9a87c; }
+  .audience .section-title { color: #f5f0ea; }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .audience-card {
+    padding: 2rem;
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 2px;
+  }
+  .audience-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: #c9a87c;
+    margin-bottom: 0.7rem;
+  }
+  .audience-card-text { font-size: 0.86rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+  /* CONTACT */
+  .contact { padding: 6rem; background: #F9F6F1; }
+  .contact-inner { max-width: 620px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-field.full { grid-column: 1 / -1; }
+  label { font-size: 0.75rem; letter-spacing: 0.08em; color: #888; text-transform: uppercase; }
+  input, select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    border: 0.5px solid rgba(0,0,0,0.2);
+    border-radius: 2px;
+    background: #fff;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #7a3b2e; }
+  textarea { resize: vertical; min-height: 130px; }
+  .submit-row { margin-top: 1.5rem; display: flex; align-items: center; gap: 1.5rem; }
+  .submit-note { font-size: 0.78rem; color: #aaa; }
+  .success-msg {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    background: #edf7f1;
+    border-left: 2px solid #2e7a4f;
+    font-size: 0.88rem;
+    color: #2e7a4f;
+    border-radius: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid rgba(0,0,0,0.1);
+    padding: 2rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: #aaa;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+  }
+  .footer-logo span { font-style: italic; color: #7a3b2e; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 8rem 2rem 3rem; }
+    .hero-right { min-height: 400px; }
+    .stats { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+    .section { padding: 4rem 2rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .audience { padding: 4rem 2rem; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .contact { padding: 4rem 2rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-field.full { grid-column: 1; }
+    footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Wine<span>Car</span></div>
+  <div class="nav-links">
+    <a href="#features">Produkt</a>
+    <a href="#audience">Für wen</a>
+    <a href="#contact">Kontakt</a>
+  </div>
+  <a href="#contact" class="nav-cta">Anfrage stellen</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Fahrbare Eleganz</p>
+    <h1 class="hero-title">Wein servieren.<br><em>Stilvoll.</em><br>Überall.</h1>
+    <p class="hero-subtitle">WineCar ist der fahrbaren Servierwagen für Wein – konzipiert für anspruchsvolle Events, Restaurants und Privathaushalte, die Genuss und Ästhetik verbinden.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Jetzt anfragen</a>
+      <a href="#features" class="btn-ghost">Mehr erfahren →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <svg width="280" height="340" viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="60" width="160" height="200" rx="3" stroke="#c9a87c" stroke-width="1.5" fill="none"/>
+        <line x1="60" y1="130" x2="220" y2="130" stroke="#c9a87c" stroke-width="1"/>
+        <line x1="60" y1="200" x2="220" y2="200" stroke="#c9a87c" stroke-width="1"/>
+        <line x1="60" y1="60" x2="60" y2="260" stroke="#c9a87c" stroke-width="1.5"/>
+        <line x1="220" y1="60" x2="220" y2="260" stroke="#c9a87c" stroke-width="1.5"/>
+        <line x1="60" y1="260" x2="220" y2="260" stroke="#c9a87c" stroke-width="1.5"/>
+        <rect x="90" y="42" width="100" height="22" rx="11" stroke="#c9a87c" stroke-width="1.5" fill="none"/>
+        <rect x="90" y="80" width="16" height="48" rx="3" fill="#7a3b2e" opacity="0.85"/>
+        <rect x="95" y="70" width="6" height="14" rx="1" fill="#7a3b2e" opacity="0.85"/>
+        <line x1="90" y1="95" x2="106" y2="95" stroke="#c9a87c" stroke-width="0.8" opacity="0.6"/>
+        <rect x="116" y="80" width="16" height="48" rx="3" fill="#5c2c20" opacity="0.85"/>
+        <rect x="121" y="70" width="6" height="14" rx="1" fill="#5c2c20" opacity="0.85"/>
+        <rect x="142" y="80" width="16" height="48" rx="3" fill="#7a3b2e" opacity="0.7"/>
+        <rect x="147" y="70" width="6" height="14" rx="1" fill="#7a3b2e" opacity="0.7"/>
+        <path d="M110 145 Q115 175 108 180 L122 180 Q115 175 120 145 Z" stroke="#c9a87c" stroke-width="1" fill="rgba(201,168,124,0.1)"/>
+        <line x1="115" y1="180" x2="115" y2="195" stroke="#c9a87c" stroke-width="1"/>
+        <line x1="108" y1="195" x2="122" y2="195" stroke="#c9a87c" stroke-width="1"/>
+        <path d="M110 145 Q115 162 120 145" stroke="#c9a87c" stroke-width="0.8" fill="rgba(201,168,124,0.15)"/>
+        <path d="M148 145 Q153 175 146 180 L160 180 Q153 175 158 145 Z" stroke="#c9a87c" stroke-width="1" fill="rgba(201,168,124,0.1)"/>
+        <line x1="153" y1="180" x2="153" y2="195" stroke="#c9a87c" stroke-width="1"/>
+        <line x1="146" y1="195" x2="160" y2="195" stroke="#c9a87c" stroke-width="1"/>
+        <path d="M148 145 Q153 162 158 145" stroke="#c9a87c" stroke-width="0.8" fill="rgba(201,168,124,0.15)"/>
+        <rect x="85" y="212" width="110" height="40" rx="2" stroke="#c9a87c" stroke-width="0.8" fill="rgba(201,168,124,0.08)"/>
+        <text x="140" y="228" text-anchor="middle" font-family="serif" font-size="8" fill="#c9a87c" opacity="0.7">WINECAR</text>
+        <text x="140" y="242" text-anchor="middle" font-family="sans-serif" font-size="6" fill="#c9a87c" opacity="0.4">PREMIUM SERIES</text>
+        <circle cx="85" cy="275" r="16" stroke="#c9a87c" stroke-width="1.5" fill="none"/>
+        <circle cx="85" cy="275" r="4" fill="#c9a87c" opacity="0.4"/>
+        <circle cx="195" cy="275" r="16" stroke="#c9a87c" stroke-width="1.5" fill="none"/>
+        <circle cx="195" cy="275" r="4" fill="#c9a87c" opacity="0.4"/>
+        <line x1="85" y1="259" x2="85" y2="271" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="85" y1="279" x2="85" y2="291" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="69" y1="275" x2="81" y2="275" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="89" y1="275" x2="101" y2="275" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="195" y1="259" x2="195" y2="271" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="195" y1="279" x2="195" y2="291" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="179" y1="275" x2="191" y2="275" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+        <line x1="199" y1="275" x2="211" y2="275" stroke="#c9a87c" stroke-width="0.8" opacity="0.5"/>
+      </svg>
+      <div class="hero-badge">Fahrbarer Servierwagen</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Einsatzbereiche – Privat, Gastronomie, Events</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">360°</div>
+    <div class="stat-label">Rundum drehbare Räder für maximale Mobilität</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Anlässe, bei denen WineCar glänzt</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <p class="section-label">Das Produkt</p>
+  <h2 class="section-title">Mehr als ein Wagen.<br><em>Ein Statement.</em></h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="20" cy="20" r="16"/>
+        <path d="M20 10 L20 22 L27 27"/>
+      </svg>
+      <div class="feature-title">Elegantes Design</div>
+      <p class="feature-text">Jeder WineCar ist auf Ästhetik ausgelegt – mit hochwertigen Materialien, die zu jedem Ambiente passen.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="8" y="8" width="24" height="24" rx="2"/>
+        <line x1="8" y1="18" x2="32" y2="18"/>
+        <line x1="8" y1="28" x2="32" y2="28"/>
+      </svg>
+      <div class="feature-title">Mehrere Ablagen</div>
+      <p class="feature-text">Platz für Flaschen, Gläser und Zubehör auf mehreren Etagen – alles griffbereit, stets ordentlich.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="12" cy="32" r="5"/>
+        <circle cx="28" cy="32" r="5"/>
+        <path d="M12 27 L12 12 L28 12 L28 27"/>
+        <line x1="12" y1="18" x2="28" y2="18"/>
+      </svg>
+      <div class="feature-title">Maximale Mobilität</div>
+      <p class="feature-text">360° drehbare Räder erlauben müheloses Manövrieren – ob durch enge Restaurantgänge oder auf dem Eventgelände.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M8 20 C8 12 14 6 22 6 C30 6 36 12 36 20"/>
+        <path d="M14 20 C14 15 17 12 22 12"/>
+        <line x1="22" y1="20" x2="22" y2="34"/>
+        <line x1="16" y1="34" x2="28" y2="34"/>
+      </svg>
+      <div class="feature-title">Vielseitig einsetzbar</div>
+      <p class="feature-text">Für Restaurants, Catering, Hochzeiten, Firmenevents oder den gepflegten Abend zuhause.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M10 30 L20 10 L30 30 Z"/>
+        <line x1="14" y1="24" x2="26" y2="24"/>
+      </svg>
+      <div class="feature-title">Stabile Konstruktion</div>
+      <p class="feature-text">Robust gebaut, um auch bei vollem Bestand sicher und stabil zu stehen – Sicherheit und Stil in einem.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M20 6 L24 16 L36 16 L26 24 L30 34 L20 28 L10 34 L14 24 L4 16 L16 16 Z"/>
+      </svg>
+      <div class="feature-title">Premium Qualität</div>
+      <p class="feature-text">Handwerkliche Verarbeitung und sorgfältig gewählte Materialien machen WineCar zu einem langlebigen Begleiter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="audience" id="audience">
+  <p class="section-label">Für wen</p>
+  <h2 class="section-title">WineCar – für <em>jeden Anlass</em></h2>
+  <div class="audience-grid">
+    <div class="audience-card">
+      <div class="audience-card-title">Restaurants & Bars</div>
+      <p class="audience-card-text">Servieren Sie Wein direkt am Tisch – mit Stil und Professionalität. WineCar hebt das Serviceerlebnis auf ein neues Level.</p>
+    </div>
+    <div class="audience-card">
+      <div class="audience-card-title">Events & Catering</div>
+      <p class="audience-card-text">Ob Hochzeit, Firmenanlass oder Galaevent – WineCar ist Ihr mobiler Weinservice, der in Erinnerung bleibt.</p>
+    </div>
+    <div class="audience-card">
+      <div class="audience-card-title">Privathaushalte</div>
+      <p class="audience-card-text">Für Weinliebhaber, die auch zuhause nicht auf Eleganz verzichten möchten. Perfekt für Dinnerpartys und Weinabende.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="contact-inner">
+    <p class="section-label">Kontakt</p>
+    <h2 class="section-title">Interesse an<br><em>WineCar?</em></h2>
+    <p style="font-size: 0.9rem; color: #888; margin-bottom: 2rem; line-height: 1.6;">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+
+    <div class="form-grid" id="contactForm">
+      <div class="form-field">
+        <label for="fname">Vorname</label>
+        <input type="text" id="fname" placeholder="Max">
+      </div>
+      <div class="form-field">
+        <label for="lname">Nachname</label>
+        <input type="text" id="lname" placeholder="Mustermann">
+      </div>
+      <div class="form-field">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" placeholder="max@beispiel.ch">
+      </div>
+      <div class="form-field">
+        <label for="phone">Telefon (optional)</label>
+        <input type="tel" id="phone" placeholder="+41 79 000 00 00">
+      </div>
+      <div class="form-field full">
+        <label for="use">Einsatzbereich</label>
+        <select id="use">
+          <option value="">Bitte wählen...</option>
+          <option>Restaurant / Bar</option>
+          <option>Event / Catering</option>
+          <option>Privathaushalt</option>
+          <option>Anderes</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label for="msg">Ihre Nachricht</label>
+        <textarea id="msg" placeholder="Erzählen Sie uns mehr über Ihren Bedarf..."></textarea>
+      </div>
+    </div>
+    <div class="submit-row" id="submitRow">
+      <button class="btn-primary" onclick="submitForm()">Anfrage absenden</button>
+      <span class="submit-note">Wir antworten innerhalb von 24h.</span>
+    </div>
+    <div class="success-msg" id="successMsg">
+      Vielen Dank für Ihre Anfrage! Wir melden uns bald bei Ihnen.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Wine<span>Car</span></div>
+  <span>© 2025 WineCar. Alle Rechte vorbehalten.</span>
+</footer>
+
+<script>
+  function submitForm() {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!fname || !email) {
+      alert('Bitte füllen Sie mindestens Vorname und E-Mail aus.');
+      return;
+    }
+    document.getElementById('contactForm').style.opacity = '0.4';
+    document.getElementById('contactForm').style.pointerEvents = 'none';
+    document.getElementById('submitRow').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
